@@ -67,8 +67,6 @@ def get_race_telemetry(session):
 
     global_t_min = None
     global_t_max = None
-    
-
     # 1. Get all of the drivers telemetry data
     for driver_no in drivers:
         code = driver_codes[driver_no]
@@ -111,9 +109,6 @@ def get_race_telemetry(session):
             gear_lap = lap_tel["nGear"].to_numpy()
             drs_lap = lap_tel["DRS"].to_numpy()
 
-            # normalise lap distance to start at 0
-            d_lap = d_lap - d_lap.min()
-            lap_length = d_lap.max()  # approx. circuit length for this lap
             # race distance = distance before this lap + distance within this lap
             race_d_lap = total_dist_so_far + d_lap
 
@@ -277,6 +272,8 @@ def get_race_telemetry(session):
 
         leader = snapshot[0]
         leader_lap = leader["lap"]
+
+        # TODO: This 5c. step seems futile currently as we are not using gaps anywhere, and it doesn't even comput the gaps. I think I left this in when removing the "gaps" feature that was half-finished during the initial development.
 
         # 5c. Compute gap to car in front in SECONDS
         frame_data = {}
